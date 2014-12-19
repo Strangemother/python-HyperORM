@@ -6,6 +6,8 @@ and setup checks.
 import hyperdex
 from hyperdex import admin, client
 from hyperdex.client import HyperDexClientException
+import models
+
 
 class HyperdexService(object):
 
@@ -55,6 +57,9 @@ class HyperdexService(object):
         if self.client is None:
             return self.connect_client()
         return self.client
+
+
+class HyperdexInstall(HyperdexService):
 
     def install_space(self):
         '''
@@ -112,3 +117,10 @@ class HyperdexService(object):
         if self.installed() is not True:
             return self.install_space()
         return self.installed()
+
+
+'''
+Agnostic output to redirect the simple api to the importable.
+'''
+class Service(HyperdexInstall):
+    pass

@@ -22,6 +22,8 @@ Next run a daemon preferably:
 
     $ hyperdex daemon -f
 
+read hyperdex_daemon.md for a nice output 
+
 We're ready for python:
 
     from hyperdex import admin, client
