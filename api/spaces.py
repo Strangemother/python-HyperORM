@@ -17,6 +17,3 @@ class Phonebook(Space):
 class FriendList(Space):
     model = FriendListModel
 
-
-class UserLock(Space):
-    model = UserLockModel

@@ -4,11 +4,13 @@ import core
 import spaces
 from core import models
 
+from examples.phonebook import phonebook_put_model
 import tools
 
 def boot():
-    print tools.install_coordinator()
-    print tools.install_daemon()
+    print 'Performing initial routines. Run the following DEV setup\n---'
+    print 'hyperdex', tools.install_coordinator()
+    print 'hyperdex', tools.install_daemon()
 
 def install():
     s = Service()
@@ -48,27 +50,10 @@ def space():
 
 def process():
     p =  spaces.Process()
-    print 'Process', p.list_spaces()
+    print 'Current:', p.list_spaces()
 
-def phonebook():
-    sv = Service()
-    pb = spaces.Phonebook(sv)
-    installed = pb.installed()
-
-    if installed is False:
-        print 'Install phonebook'
-        installed = pb.install()
-
-    if installed is False:
-        print 'Could not install phonebook'
-
-    return pb
 
 if __name__ == '__main__':
     boot()
     process()
-    pb = phonebook()
-
-    import pdb; pdb.set_trace()
-    removed = pb.remove()
-    print 'removed phonebook space:', removed
+    phonebook_put_model()

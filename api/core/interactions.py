@@ -3,11 +3,11 @@ import exceptions
 from exceptions import ERR
 
 
-class Interation(object):
+class Interaction(object):
     pass
 
 
-class ProcessMixin(Interation):
+class ProcessMixin(Interaction):
 
     def cmd_process(self, *args):
         cms = ['hyperdex'] + [x for x in args]
@@ -16,23 +16,33 @@ class ProcessMixin(Interation):
         out, err = p.communicate()
         return out
 
+class PutMixin(Interaction):
 
-class GetMixin(Interation):
+    def put(self, model=None, *args, **kwargs):
+        client = None
+
+        if self.service:
+            client = self.service.get_client()
+            return client.put(self.name, model.key, model.get_def())
+
+class GetMixin(Interaction):
 
     def get(self, key):
         client = None
 
         if self.service:
             client = self.service.get_client()
-            print client
 
-        print 'get from cloud', key
+        print 'get from ', self.name, 'key', key
+
         if client is not None:
-            import pdb; pdb.set_trace()
             d = client.get(self.name, key)
-        return d
+            Model = self.get_model()
+            model = Model(key=key, data=d, space=self)
+            return model
 
-class InstallMixin(Interation):
+
+class InstallMixin(Interaction):
 
     def install(self):
         '''
@@ -58,11 +68,14 @@ class InstallMixin(Interation):
         return False
 
     def remove(self):
-
+        '''
+        Remote the attached space from the hypderDex spaces.
+        Return boolean for success
+        '''
         if self.installed() is True:
-            a = space.service.get_admin()
+            a = self.service.get_admin()
             if a is not None:
-                hdef = space.hyper_def()
+                hdef = self.hyper_def()
                 removed = a.rm_space(hdef)
                 return removed
             else:

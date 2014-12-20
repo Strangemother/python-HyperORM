@@ -20,7 +20,6 @@ class BaseModel(object):
             raise exceptions.HyperError(ERR.MISSING_KEY, model=self)
         return None
 
-
     def get_attrs(self):
         '''
         Find all key attrs
@@ -50,8 +49,9 @@ class BaseModel(object):
     def get_def(self):
         attrs = self.get_attrs()
         obj = {}
+        print 'get def'
         for attr in attrs:
-            obj[attr] = getattr(self.__class__, attr)
+            obj[attr] = getattr(self, attr)
         return obj
 
     def get_indices(self):
@@ -67,8 +67,19 @@ class BaseModel(object):
         return indices
 
 
+
 class Model(BaseModel):
-    pass
+
+    def __init__(self, key=None, data=None, space=None):
+
+        if key is not None:
+            setattr(self, 'key', key)
+
+        if data is not None:
+            self.__dict__.update(**data)
+
+        if space is not None:
+            self._space = space
 
 
 class InstallModel(Model):

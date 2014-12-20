@@ -2,7 +2,7 @@
 import exceptions
 from exceptions import ERR
 
-from interactions import GetMixin, InstallMixin, ProcessMixin
+from interactions import GetMixin, PutMixin, InstallMixin, ProcessMixin
 from models import *
 
 __all__ = ['AllTypes', 'Phonebook', 'FriendList', 'UserLock']
@@ -205,7 +205,7 @@ class Definition(Process):
         import pdb; pdb.set_trace()
 
 
-class Space(Definition, GetMixin, InstallMixin):
+class Space(Definition, GetMixin, PutMixin, InstallMixin):
     pass
 
 
@@ -213,3 +213,7 @@ class APISpace(Space):
     name = 'api_space'
     tolerate = 2
     model = InstallModel
+
+
+class UserLock(Space):
+    model = UserLockModel

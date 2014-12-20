@@ -24,7 +24,6 @@ def install_coordinator(ip='127.0.0.1', port=1982, cluster=None, cluster_port=No
 	# -c, --connect=addr          join an existing cluster through IP address or hostname
 	# -P, --connect-port=port     connect to an alternative port (default: 1982)
 	#     --pidfile=file          write the PID to a file (default: don't)
-	print 'install coordinator'
 
 	pid_path = os.path.join(PID_DIR, 'cood_pid')
 	makedirs_exist(LOG_DIR)
@@ -42,7 +41,7 @@ def install_coordinator(ip='127.0.0.1', port=1982, cluster=None, cluster_port=No
 	if cluster_port is not None: cmds = cmds + ['--connect-port', str(cluster_port)]
 
 	cmds = cmds + ['--pidfile', pid_path]
-	print ' '.join(cmds)
+	return ' '.join(cmds)
 
 
 def install_daemon(listen_ip='127.0.0.1', listen_port=2012, \
@@ -74,7 +73,6 @@ def install_daemon(listen_ip='127.0.0.1', listen_port=2012, \
 	# Help options:
 	#   -?, --help                      Show this help message
 	#       --usage                     Display brief usage message
-	print 'install daemon'
 
 	pid_path = os.path.join(PID_DIR, 'daemon_pid')
 	makedirs_exist(LOG_DIR)
@@ -101,4 +99,4 @@ def install_daemon(listen_ip='127.0.0.1', listen_port=2012, \
 
 	cmds = cmds + ['--pidfile', pid_path]
 	# run command LOG_DIR
-	print ' '.join(cmds)
+	return ' '.join(cmds)
