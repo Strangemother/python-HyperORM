@@ -17,3 +17,8 @@ class Phonebook(Space):
 class FriendList(Space):
     model = FriendListModel
 
+
+class Accounts(Space):
+	name = 'accounts'
+	model = AccountsModel
+	authorized = True

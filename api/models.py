@@ -30,3 +30,10 @@ class PhoneBookModel(Model):
     last = types.Str(index=True)
     phone = types.Int(index=True)
 
+
+class AccountsModel(Model):
+    name = types.Str()
+    balance = types.Int()
+
+    class Meta:
+        key_name = 'account'

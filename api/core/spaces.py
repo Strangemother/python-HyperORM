@@ -56,6 +56,13 @@ class Definition(Process):
     service = None
 
     '''
+    Decentralized authorization framework developed by Google for use in
+    distributed systems. Macaroons enable an application developer to enforce
+    security policies per object, as opposed to per table or per database.
+    '''
+    authorized = False
+
+    '''
     Hyperdex version
     '''
     VERSION = '1.3.0'
@@ -120,8 +127,8 @@ class Definition(Process):
         index = []
         tolerate = self.tolerate if hasattr(self, 'tolerate') is True else 0
         partitions = self.partitions if hasattr(self, 'partitions') is True else 0
-        # To be later added.
-        authorization = False
+
+        authorization = self.authorized
         # List all all attributes, or even the referenced model flattended into
         # its string components and ready to apply as a space.
         attr_str = ',\n'.join(self.get_attributes())
@@ -217,3 +224,4 @@ class APISpace(Space):
 
 class UserLock(Space):
     model = UserLockModel
+

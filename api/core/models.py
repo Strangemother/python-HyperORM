@@ -2,6 +2,7 @@ import inspect
 import types
 import exceptions
 from exceptions import ERR
+from objects import Objects
 
 
 class BaseModel(object):
@@ -15,7 +16,7 @@ class BaseModel(object):
         if meta_name is not None:
             return meta_name
         elif self.key is not None:
-            return self.key.name
+            return 'key' if hasattr(self.key, 'name') is False else self.key.name
         else:
             raise exceptions.HyperError(ERR.MISSING_KEY, model=self)
         return None
@@ -31,13 +32,15 @@ class BaseModel(object):
         for parent_class in iter(classes):
             ## print 'class', parent_class
             keys = parent_class.__dict__.keys()
+            ckeys = self.__class__.__dict__.keys()
             for model_field in keys:
                 is_cls = inspect.isclass( getattr(parent_class, model_field) )
                 is_meta = model_field == 'Meta' and is_cls
                 name = model_field
                 if is_meta or model_field in ignore or model_field.startswith('__'):
                     continue
-                fields.append(name)
+                if model_field in ckeys:
+                    fields.append(name)
 
         for field in ignore:
             name = field
@@ -49,7 +52,6 @@ class BaseModel(object):
     def get_def(self):
         attrs = self.get_attrs()
         obj = {}
-        print 'get def'
         for attr in attrs:
             obj[attr] = getattr(self, attr)
         return obj
@@ -68,15 +70,16 @@ class BaseModel(object):
 
 
 
-class Model(BaseModel):
+class Model(BaseModel, Objects):
 
-    def __init__(self, key=None, data=None, space=None):
+    def __init__(self, key=None, data=None, space=None, **kwargs):
 
         if key is not None:
-            setattr(self, 'key', key)
+            setattr(self, 'key', str(key))
 
         if data is not None:
             self.__dict__.update(**data)
+        self.__dict__.update(**kwargs)
 
         if space is not None:
             self._space = space
