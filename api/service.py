@@ -82,7 +82,7 @@ class HyperdexInstall(HyperdexService):
         print '------'
 
         admin = self.get_admin()
-        added = admin.add_space(space_str)
+        added = admin.add_space(space_str).split('\n')
         if added:
             client = self.get_client()
             # put a record

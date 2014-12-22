@@ -37,7 +37,6 @@ class GetMixin(InteractionMixin):
         if service:
             client = client or service.get_client()
 
-        import pdb; pdb.set_trace()
         if client is not None:
             d = client.async_get(self.name, key).wait()
             Model = self.get_model()
@@ -109,11 +108,16 @@ class Objects(GetMixin, PutMixin):
         '''
         if service is None and hasattr(self, 'service'):
             service = self.service
-        if service is None and hasattr(self, '_space'):
-            service = self._space.service
 
-        if hasattr(self, 'space') is False and hasattr(self, '_space'):
-            space = self._space
+        if hasattr(self, 'space') is False:
+            if hasattr(self, '_space'):
+                space = self._space
+            elif hasattr(self, '__space__'):
+                space = self.__space__
         else:
             space = self.space
+
+        if service is None and space is not None:
+            service = space.service
+
         return self.put(model=self, space=space, service=service)

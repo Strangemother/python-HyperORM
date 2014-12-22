@@ -102,6 +102,8 @@ class Definition(Process):
         '''
         Returns the model from self.model
         '''
+
+        self.model.__space__ = self
         return self.model
 
     def get_space_name(self):
