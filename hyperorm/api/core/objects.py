@@ -12,7 +12,7 @@ class ProcessMixin(InteractionMixin):
     def cmd_process(self, *args):
         cms = ['hyperdex'] + [x for x in args]
         p = subprocess.Popen(cms, stdout=subprocess.PIPE,
-                                            stderr=subprocess.PIPE)
+                             stderr=subprocess.PIPE)
         out, err = p.communicate()
         return out
 

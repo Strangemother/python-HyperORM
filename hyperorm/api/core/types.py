@@ -2,6 +2,7 @@ import inspect
 
 
 class Type(object):
+
     ''' A field to apply to hyper space and a python repesenation of
      a hyperspace '''
     data_type = None
@@ -9,17 +10,16 @@ class Type(object):
     types = None
 
     def get_definition(self):
-        return self.definition % { 'data_type': self.data_type }
+        return self.definition % {'data_type': self.data_type}
 
     def get_name(self):
         return self.name
-
 
     def get_definition(self):
         ns = []
         try:
             for t in iter(self.types):
-                if inspect.isclass( t ):
+                if inspect.isclass(t):
                     if hasattr(t, 'data_type'):
                         ns.append(t.data_type)
                     else:
@@ -38,7 +38,7 @@ class Type(object):
             'data_type': self.data_type,
             'types': types,
             'name': self.get_name()
-            }
+        }
 
     def __init__(self, name=None, index=False):
         self.index = index
@@ -63,11 +63,13 @@ class Type(object):
     def __repr__(self):
         return "%s('%s')" % (self.__class__.__name__, self.name)
 
+
 class Key(Type):
-    data_type ='key'
+    data_type = 'key'
 
 
 class Str(Type):
+
     '''
      The basic datatype in HyperDex is a byte string.
      If you don't specify the type of an attribute when creating a space,
@@ -86,6 +88,7 @@ class Str(Type):
 
 
 class Int(Type):
+
     '''
      HyperDex supports get and put operations on integers. In addition to
      these basic operations, HyperDex provides atomic operations to
@@ -93,10 +96,11 @@ class Int(Type):
 
      int foo
     '''
-    data_type ='int'
+    data_type = 'int'
 
 
 class Float(Type):
+
     '''
      HyperDex supports get and put operations on integers. In addition to
      these basic operations, HyperDex provides atomic operations to
@@ -104,7 +108,7 @@ class Float(Type):
 
      float foo
     '''
-    data_type ='float'
+    data_type = 'float'
 
 
 class SubType(Type):
@@ -119,7 +123,9 @@ class SubType(Type):
 
         return "<types.%s('%s', %s)>" % (self.__class__.__name__, self.name, self.types)
 
+
 class Set(SubType):
+
     '''
      HyperDex supports simple set assignment (using the put
      interface), adding and removing elements with set_add and

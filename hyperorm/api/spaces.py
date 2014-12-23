@@ -19,6 +19,6 @@ class FriendList(Space):
 
 
 class Accounts(Space):
-	name = 'accounts'
-	model = AccountsModel
-	authorized = True
+    name = 'accounts'
+    model = AccountsModel
+    authorized = True

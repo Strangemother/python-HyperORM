@@ -19,10 +19,10 @@ class AllTypesModel(Model):
     s = types.Str()
     i = types.Int()
     f = types.Float()
-    ls = types.List( types.Str )
+    ls = types.List(types.Str)
     ss = types.Set(types.Str)
-    mss = types.Map( (types.Str, types.Str, ) )
-    msi = types.Map( (types.Str, types.Int, ) )
+    mss = types.Map((types.Str, types.Str, ))
+    msi = types.Map((types.Str, types.Int, ))
 
 
 class PhoneBookModel(Model):

@@ -65,6 +65,7 @@ class HyperdexInstall(HyperdexService):
         '''
         Install the service space. returns boolean if add_space ran correctly.
         '''
+        so = {'api_space': self.space_name}
         space_str = '''
           space %(api_space)s
           key app_name
@@ -74,8 +75,8 @@ class HyperdexInstall(HyperdexService):
             int timestamp
           subspace keyname
           tolerate 2 failures
-        ''' % { 'api_space': self.space_name }
-          # create 8 partitions
+        ''' % (so,)
+        # create 8 partitions
 
         print 'Installing:'
         print space_str
@@ -86,7 +87,8 @@ class HyperdexInstall(HyperdexService):
         if added:
             client = self.get_client()
             # put a record
-            putted = client.put(self.space_name, self.app_name, { 'value': 'installed'})
+            putted = client.put(
+                self.space_name, self.app_name, {'value': 'installed'})
             return putted
         return added
 
@@ -99,7 +101,7 @@ class HyperdexInstall(HyperdexService):
         client = self.get_client()
 
         try:
-            ino = client.get( self.space_name, self.app_name )
+            ino = client.get(self.space_name, self.app_name)
             if ino is None:
                 return False
             if ino['value'] is None:
@@ -122,5 +124,7 @@ class HyperdexInstall(HyperdexService):
 '''
 Agnostic output to redirect the simple api to the importable.
 '''
+
+
 class Service(HyperdexInstall):
     pass

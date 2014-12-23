@@ -8,10 +8,12 @@ ErrorDefinitions = {
 
 
 class Struct:
+
     def __init__(self, **entries):
         self.__dict__.update(entries)
 
 ERR = Struct(**ErrorDefinitions)
+
 
 class HyperError(Exception):
 
@@ -24,10 +26,10 @@ class HyperError(Exception):
 
         name = self.__class__.__name__
 
-        c = self.code % { 'model': self.model,
-            'code': self.code,
-            'message': self.message
-        }
+        c = self.code % {'model': self.model,
+                         'code': self.code,
+                         'message': self.message
+                         }
 
         if self.message is not None:
             s = '%s(%s): %s' % (name, c, self.message)

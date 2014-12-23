@@ -30,11 +30,11 @@ class BaseModel(object):
         classes = self.__class__.__mro__
         # rint classes
         for parent_class in iter(classes):
-            ## print 'class', parent_class
+            # print 'class', parent_class
             keys = parent_class.__dict__.keys()
             ckeys = self.__class__.__dict__.keys()
             for model_field in keys:
-                is_cls = inspect.isclass( getattr(parent_class, model_field) )
+                is_cls = inspect.isclass(getattr(parent_class, model_field))
                 is_meta = model_field == 'Meta' and is_cls
                 name = model_field
                 if is_meta or model_field in ignore or model_field.startswith('__'):
@@ -59,7 +59,7 @@ class BaseModel(object):
     def get_indices(self):
         fields = self.get_attrs()
         indices = []
-        index ='index'
+        index = 'index'
 
         for field in fields:
             tf = getattr(self, field)
@@ -67,7 +67,6 @@ class BaseModel(object):
                 indices.append(field)
 
         return indices
-
 
 
 class Model(BaseModel, Objects):

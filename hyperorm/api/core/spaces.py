@@ -13,8 +13,10 @@ class Process(ProcessMixin):
     def list_spaces(self, ip=None, port=None):
         v = ['list-spaces']
 
-        if ip: v.append('--host', ip)
-        if port: v.append('--port', port)
+        if ip:
+            v.append('--host', ip)
+        if port:
+            v.append('--port', port)
 
         return self.cmd_process(*v)
 
@@ -79,7 +81,7 @@ class Definition(Process):
         By precedence, field.name then the class created name 'pk', is referenced.
         '''
         defin = self.model().get_def()
-        fields= []
+        fields = []
         for k in defin:
             field = defin[k]
             field.name = k if field.get_name() is None else field.get_name()
@@ -128,7 +130,8 @@ class Definition(Process):
         subspaces = []
         index = []
         tolerate = self.tolerate if hasattr(self, 'tolerate') is True else 0
-        partitions = self.partitions if hasattr(self, 'partitions') is True else 0
+        partitions = self.partitions if hasattr(
+            self, 'partitions') is True else 0
 
         authorization = self.authorized
         # List all all attributes, or even the referenced model flattended into
@@ -139,7 +142,6 @@ class Definition(Process):
         name = self.get_space_name()
 
         model_key_name = model.get_key_name()
-
 
         # Get the key field name from the Key() field.
         if model_key_name is not None:
@@ -177,19 +179,19 @@ class Definition(Process):
 
         # indexes to create
         if len(subspaces) > 0:
-           hs.append('subspace %(subspaces)s')
+            hs.append('subspace %(subspaces)s')
 
-        #if len(index) > 0:
+        # if len(index) > 0:
         #   hs.append('index %(indices)s')
 
         if tolerate > 0:
-           hs.append('tolerate %(tolerate)s failures')
+            hs.append('tolerate %(tolerate)s failures')
 
         if partitions > 0:
-           hs.append('create %(partitions)s partitions')
+            hs.append('create %(partitions)s partitions')
 
         if authorization is True:
-           hs.append('with authorization ')
+            hs.append('with authorization ')
 
         s = '\n'.join(hs)
         s = s % {
@@ -211,7 +213,8 @@ class Definition(Process):
         print df
         cm = self.cmd_process(*['validate-space', df])
         print cm
-        import pdb; pdb.set_trace()
+        import pdb
+        pdb.set_trace()
 
 
 class Space(Definition, GetMixin, PutMixin, InstallMixin):
@@ -226,4 +229,3 @@ class APISpace(Space):
 
 class UserLock(Space):
     model = UserLockModel
-
