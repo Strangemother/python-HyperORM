@@ -1,5 +1,6 @@
 
 class Field(object):
+
     '''
      A reprensation of a hypdex model for the process of space creation
      in a hyperdex.

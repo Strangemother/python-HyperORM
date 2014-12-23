@@ -12,9 +12,10 @@ class ProcessMixin(Interaction):
     def cmd_process(self, *args):
         cms = ['hyperdex'] + [x for x in args]
         p = subprocess.Popen(cms, stdout=subprocess.PIPE,
-                                            stderr=subprocess.PIPE)
+                             stderr=subprocess.PIPE)
         out, err = p.communicate()
         return out
+
 
 class PutMixin(Interaction):
 
@@ -24,6 +25,7 @@ class PutMixin(Interaction):
         if self.service:
             client = self.service.get_client()
             return client.put(self.name, model.key, model.get_def())
+
 
 class GetMixin(Interaction):
 
@@ -90,4 +92,3 @@ class InstallMixin(Interaction):
         Return boolean if this space is installed
         '''
         return self.exists()
-
