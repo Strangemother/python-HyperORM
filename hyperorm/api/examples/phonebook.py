@@ -1,5 +1,5 @@
-from service import Service
-from spaces import Phonebook
+from ..service import Service
+from ..spaces import Phonebook
 import random
 
 def phonebook():

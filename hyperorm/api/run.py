@@ -7,10 +7,12 @@ from core import models
 from examples.phonebook import phonebook_put_model
 import tools
 
+
 def boot():
     print 'Performing initial routines. Run the following DEV setup\n---'
     print 'hyperdex', tools.install_coordinator()
     print 'hyperdex', tools.install_daemon()
+
 
 def install():
     s = Service()
@@ -21,6 +23,7 @@ def install():
         print 'performing install'
         installed = s.install()
         print 'installed', installed
+
 
 def model():
     print 'Model', models.Model().get_attrs()
@@ -33,6 +36,7 @@ def model():
     print 'NamedInstallModel', models.NamedInstallModel().get_attrs()
     print 'AllTypesModel', models.AllTypesModel().get_def()
     print 'AllTypesModel', models.AllTypesModel().get_attrs()
+
 
 def space():
     a = spaces.AllTypes()
@@ -48,8 +52,9 @@ def space():
     print '\n--- space ---\n'
     print f.hyper_def()
 
+
 def process():
-    p =  spaces.Process()
+    p = spaces.Process()
     print 'Current:', p.list_spaces()
 
 

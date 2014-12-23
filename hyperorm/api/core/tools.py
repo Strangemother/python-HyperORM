@@ -13,3 +13,4 @@ def install_coodinator():
 	# -P, --connect-port=port     connect to an alternative port (default: 1982)
 	#     --pidfile=file          write the PID to a file (default: don't)
 
+	pass

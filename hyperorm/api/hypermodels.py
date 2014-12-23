@@ -1,4 +1,5 @@
 class Model(object):
+
     '''
      A reprensation of a hypdex model for the process of space creation
      in a hyperdex.
@@ -6,13 +7,14 @@ class Model(object):
 
 
 class Field(object):
+
     ''' A field to apply to hyper space and a python repesenation of
      a hyperspace '''
     data_type = None
     definition = '%(data_type)s'
 
     def get_definition(self):
-        return self.definition % { 'data_type': self.data_type }
+        return self.definition % {'data_type': self.data_type}
 
     def __unicode__(self):
         '''
@@ -32,6 +34,7 @@ class Field(object):
 
 
 class Str(Field):
+
     '''
      The basic datatype in HyperDex is a byte string.
      If you don't specify the type of an attribute when creating a space,
@@ -50,6 +53,7 @@ class Str(Field):
 
 
 class Int(Field):
+
     '''
      HyperDex supports get and put operations on integers. In addition to
      these basic operations, HyperDex provides atomic operations to
@@ -57,10 +61,11 @@ class Int(Field):
 
      int foo
     '''
-    data_type ='int'
+    data_type = 'int'
 
 
 class Set(Field):
+
     '''
      HyperDex supports simple set assignment (using the put
      interface), adding and removing elements with set_add and
@@ -77,7 +82,7 @@ class Set(Field):
         return self.definition % {
             'data_type': self.data_type,
             'sub_type': self.sub_type
-            }
+        }
 
 
 class Map(Set):
