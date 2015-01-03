@@ -68,6 +68,16 @@ class BaseModel(object):
 
         return indices
 
+    def __str__(self):
+        return "HyperModel: %s" % (self.__unicode__())
+
+    def __unicode__(self):
+        kn = self.get_key_name()
+        pk = getattr(self, kn) if hasattr(self, kn) else None
+        return "%s('%s')" % (self.__class__.__name__, pk )
+
+    def __repr__(self):
+        return "<HyperModel %s.%s>" % (self.__class__.__module__, self.__class__.__unicode__(self) )
 
 class Model(BaseModel, Objects):
 
