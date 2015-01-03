@@ -10,8 +10,11 @@ import tools
 
 def boot():
     print 'Performing initial routines. Run the following DEV setup\n---'
-    print 'hyperdex', tools.install_coordinator()
-    print 'hyperdex', tools.install_daemon()
+    co = tools.install_coordinator()
+    da = tools.install_daemon()
+    print 'hyperdex', co
+    print 'hyperdex', da
+    return [co, da]
 
 
 def install():

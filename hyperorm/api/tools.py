@@ -13,7 +13,7 @@ def makedirs_exist(path):
             raise
 
 
-def install_coordinator(ip='127.0.0.1', port=1982, cluster=None, cluster_port=None):
+def install_coordinator(ip='127.0.0.1', port=1982, cluster=None, cluster_port=None, daemon=False):
         # hyperdex coordinator -f -l 127.0.0.1 -p 1982 --daemon
 
         # daemon
@@ -32,26 +32,30 @@ def install_coordinator(ip='127.0.0.1', port=1982, cluster=None, cluster_port=No
     makedirs_exist(COORD_DATA_DIR)
     # make path
     cmds = ['coordinator',
-            '--data', COORD_DATA_DIR,
-            '--log', LOG_DIR,
-            '--daemon'
+            '--data=%s' % (COORD_DATA_DIR,),
+            '--log=%s' % (LOG_DIR,)
             ]
 
     if ip is not None:
-        cmds = cmds + ['--listen', ip]
+        cmds = cmds + ['--listen=%s' % (ip,)]
     if port is not None:
-        cmds = cmds + ['--listen-port', str(port)]
+        cmds = cmds + ['--listen-port=%s' % (str(port),)]
     if cluster is not None:
-        cmds = cmds + ['--connect', cluster]
+        cmds = cmds + ['--connect=%s' % (cluster,)]
     if cluster_port is not None:
-        cmds = cmds + ['--connect-port', str(cluster_port)]
+        cmds = cmds + ['--connect-port=%s' % (str(cluster_port),)]
+
+    if daemon is not False:
+        cmds = cmds + ['--daemon']
+    else:
+        cmds = cmds + ['--foreground']
 
     cmds = cmds + ['--pidfile', pid_path]
     return ' '.join(cmds)
 
 
 def install_daemon(listen_ip='127.0.0.1', listen_port=2012,
-                   coord_ip=None, coord_port=1982):
+                   coord_ip=None, coord_port=1982, daemon=False):
     # The HyperDex daemons are the workhorse processes
     # that actually house the data in the data store and
     # respond to client requests.
@@ -86,23 +90,27 @@ def install_daemon(listen_ip='127.0.0.1', listen_port=2012,
     makedirs_exist(PID_DIR)
     # make path
     cmds = ['daemon',
-            '--data', DAEMON_DATA_DIR,
-            '--log', LOG_DIR,
-            '--daemon'
+            '--data=%s' % (DAEMON_DATA_DIR,),
+            '--log=%s' % (LOG_DIR,)
             ]
 
     if listen_ip is not None:
-        cmds = cmds + ['--listen', listen_ip]
+        cmds = cmds + ['--listen=%s' % (listen_ip,)]
 
     if listen_port is not None:
-        cmds = cmds + ['--listen-port', str(listen_port)]
+        cmds = cmds + ['--listen-port=%s' % (str(listen_port),)]
 
     if coord_ip is not None:
-        cmds = cmds + ['--coordinator', coord_ip]
+        cmds = cmds + ['--coordinator=%s' % (coord_ip,)]
 
     if coord_port is not None:
-        cmds = cmds + ['--coordinator-port', str(coord_port)]
+        cmds = cmds + ['--coordinator-port=%s' % (str(coord_port), )]
 
-    cmds = cmds + ['--pidfile', pid_path]
+    if daemon is not False:
+        cmds = cmds + ['--daemon']
+    else:
+        cmds = cmds + ['--foreground']
+
+    cmds = cmds + ['--pidfile=%s' % (pid_path, )]
     # run command LOG_DIR
     return ' '.join(cmds)
