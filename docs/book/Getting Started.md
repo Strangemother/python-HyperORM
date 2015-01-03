@@ -18,8 +18,8 @@ If you've got settings (we'll cover this later) they'll be picked up for the for
 >>> run.boot()
 Performing initial routines. Run the following DEV setup
 ---
-hyperdex coordinator --data /foo/DATA/coord --log /foo/DATA/logs --daemon --listen 127.0.0.1 --listen-port 1982 --pidfile /foo/DATA/pids/cood_pid
-hyperdex daemon --data /foo/DATA/daemon --log /foo/DATA/logs --daemon --listen 127.0.0.1 --listen-port 2012 --coordinator-port 1982 --pidfile /foo/DATA/pids/daemon_pid
+hyperdex coordinator --data /foo/DATA/coord --log /foo/DATA/logs -f --listen 127.0.0.1 --listen-port 1982 --pidfile /foo/DATA/pids/cood_pid
+hyperdex daemon --data /foo/DATA/daemon --log /foo/DATA/logs -f --listen 127.0.0.1 --listen-port 2012 --coordinator-port 1982 --pidfile /foo/DATA/pids/daemon_pid
 >>>
 ```
 Those strings are ready to paste into the console for the basic hyperdex.
