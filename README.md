@@ -1,5 +1,42 @@
 http://symas.com/mdb/hyperdex2/
 
+# Dev requirements:
+
+
+## libsodium
+
+For authorization, libmaracroons provides the object security based upon:
+
+https://github.com/rescrv/libmacaroons
+
+This should install fine, and may also be provided with the HyperDex installation. 
+
+Performing manual installation may require additional apps not listed within the libmacaroons documentation.
+
+You may need required tools:
+
+    sudo apt-get install build-essential python-dev
+    sudo apt-get install autoconf
+    sudo apt-get install pkg-config 
+
+You'll need a functioning GCC compiler *build essential* and a recent version of libSodium:
+
+    wget https://download.libsodium.org/libsodium/releases/libsodium-1.0.1.tar.gz
+    tar xzvf libsodium-1.0.1.tar.gz
+    cd libsodium-1.0.1
+    ./configure --enable-python-bindings && make && make check
+    sudo make install 
+
+If all dependencies are met, documentation implemented version of macaroons is easy:
+
+    wget http://hyperdex.org/src/libmacaroons-0.2.0.tar.gz
+    tar xzf libmacaroons-0.2.0.tar.gz
+    cd libmacaroons-0.2.0
+    ./configure
+    make
+    sudo make install
+
+
 # Running hyperdex
 
 run the coordinator in it's own folder (keep it clean)
