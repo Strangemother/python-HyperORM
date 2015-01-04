@@ -104,9 +104,13 @@ class Definition(Process):
         '''
         Returns the model from self.model
         '''
-
         self.model.__space__ = self
         return self.model
+
+    def load_model(self, *args, **kwargs):
+        M = self.get_model()
+        m = M(*args, **kwargs)
+        return m
 
     def get_space_name(self):
         if self.name is not None:
@@ -218,6 +222,10 @@ class Definition(Process):
 
 
 class Space(Definition, GetMixin, PutMixin, InstallMixin):
+    '''
+    A Space defined a storage space already created to auto_now_add
+    model
+    '''
     pass
 
 
@@ -225,6 +233,11 @@ class APISpace(Space):
     name = 'api_space'
     tolerate = 2
     model = InstallModel
+
+
+class TestSpace(Space):
+    name = 'test'
+    model = TestModel
 
 
 class UserLock(Space):
