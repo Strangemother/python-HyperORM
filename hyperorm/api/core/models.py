@@ -54,6 +54,7 @@ class BaseModel(object):
         obj = {}
         for attr in attrs:
             obj[attr] = getattr(self, attr)
+
         return obj
 
     def get_indices(self):
@@ -79,12 +80,16 @@ class BaseModel(object):
     def __repr__(self):
         return "<HyperModel %s.%s>" % (self.__class__.__module__, self.__class__.__unicode__(self) )
 
+
 class Model(BaseModel, Objects):
 
-    def __init__(self, key=None, data=None, space=None, **kwargs):
-
+    def __init__(self, key=None, data=None, space=None, *args, **kwargs):
+        kn = self.get_key_name()
         if key is not None:
-            setattr(self, 'key', str(key))
+            setattr(self, kn, str(key))
+        else:
+            if args and args[0] is not None:
+                setattr(self, kn, args[0])
 
         if data is not None:
             self.__dict__.update(**data)
@@ -94,8 +99,12 @@ class Model(BaseModel, Objects):
             self._space = space
 
 
-class InstallModel(Model):
+class TestModel(Model):
+    name = types.Str()
+    number = types.Int()
 
+
+class InstallModel(Model):
     keyname = types.Str(index=True)
     value = types.Str()
     timestamp = types.Int()
@@ -112,3 +121,4 @@ class UserLockModel(Model):
 
 class DocumentModel(Model):
     profile = types.Document()
+
