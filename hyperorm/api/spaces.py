@@ -2,6 +2,7 @@ from core.spaces import Space, Process
 from models import *
 
 
+
 class AllTypes(Space):
     name = 'alldatatypes'
     model = AllTypesModel
