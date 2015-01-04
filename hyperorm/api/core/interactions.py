@@ -1,7 +1,7 @@
 import subprocess
 import exceptions
 from exceptions import ERR
-
+from hyperdex.client import HyperDexClientException
 
 class Interaction(object):
     pass
@@ -29,19 +29,33 @@ class PutMixin(Interaction):
 
 class GetMixin(Interaction):
 
-    def get(self, key):
+    def get(self, key, raw=False):
         client = None
 
         if self.service:
             client = self.service.get_client()
+        else:
+            raise exceptions.MissingServiceError()
 
-        print 'get from ', self.name, 'key', key
+        print 'get', key, 'from', self.name
 
-        if client is not None:
+        if client is None:
+            raise exceptions.MissingClientError()
+
+        try:
             d = client.get(self.name, key)
-            Model = self.get_model()
-            model = Model(key=key, data=d, space=self)
-            return model
+        except Exception as e:
+            if e.symbol() in dir(ERR):
+                raise exceptions.HyperClientError(e.status(), e.message())
+            else:
+                raise e
+
+        if raw is True:
+            return d
+
+        Model = self.get_model()
+        model = Model(key=key, data=d, space=self)
+        return model
 
 
 class InstallMixin(Interaction):
