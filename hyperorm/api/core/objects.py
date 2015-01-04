@@ -23,10 +23,17 @@ class PutMixin(InteractionMixin):
         space = space or self
         if service is None and hasattr(self, 'service'):
             service = self.service
+
         if service:
             client = client or service.get_client()
-            return client.async_put(space.name, model.key, model.get_def()).wait()
+            kn = model.get_key_name()
+            key = getattr(model, kn) if hasattr(model, kn) else model.key
+            model_obj = model.get_def()
 
+            if kwargs.get('secret', False):
+                model_obj[ '__secret'] = kwargs.get('secret')
+
+            return client.async_put(space.name, key, model_obj).wait()
 
 class GetMixin(InteractionMixin):
 
@@ -100,7 +107,7 @@ class Objects(GetMixin, PutMixin):
         self.service = service
         self.space = space
 
-    def save(self, service=None):
+    def save(self, service=None, secret=None):
         '''
         Objects can be saved to it's associated
         space. A model is provided with it's associated
@@ -109,15 +116,27 @@ class Objects(GetMixin, PutMixin):
         if service is None and hasattr(self, 'service'):
             service = self.service
 
+        space = None
+
         if hasattr(self, 'space') is False:
             if hasattr(self, '_space'):
                 space = self._space
             elif hasattr(self, '__space__'):
                 space = self.__space__
+            elif hasattr(self.__class__, '__space__'):
+                space = self.__class__.__space__
         else:
             space = self.space
 
         if service is None and space is not None:
             service = space.service
+        pargs = {
+            'model': self,
+            'space': space,
+            'service': service
+        }
 
-        return self.put(model=self, space=space, service=service)
+        if secret is not None:
+            pargs['secret'] = secret
+
+        return self.put(**pargs)
