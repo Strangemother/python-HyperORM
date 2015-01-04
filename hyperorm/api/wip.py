@@ -1,16 +1,6 @@
-from examples.phonebook import phonebook
-from examples.phonebook import phonebook_put_many
-space = phonebook()
-M = space.get_model()
-m = M('tom', first='Tomas', last='Thumb', phone=440743566523)
-
-m = space.get('bob')
-m.get_attrs()
-m.last
-m.last = 'foo'
-m.save()
-m.get()
-phonebook_put_many()
-
-m = pb.get_model()()
-m.get_def()
+from hyperorm import spaces, Service
+a = spaces.Accounts(Service())
+am = a.load_model(1, name='eric', balance=2)
+am.save(secret='apples')
+p = spaces.Phonebook(Service())
+pm = p.load_model('eric', first='Entrice', last='Foolsaf', phone=12345678)
