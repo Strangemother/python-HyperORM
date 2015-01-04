@@ -15,6 +15,6 @@ setup(name='hyperorm',
       author='Strangemother',
       author_email='jay@strangemother.com',
       license='MIT',
-      packages=['hyporm'],
+      packages=['hyperorm'],
       install_requires=[],
       zip_safe=False)
